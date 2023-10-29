@@ -100,22 +100,29 @@ class TestFileStorage(unittest.TestCase):
         models.storage.delete(user)
         models.storage.delete(state)
 
-    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
     def test_get(self):
-        """Test that get method returns object by valid id"""
-        models.storage.reload()
-        user = User(email="1@2.com", password="123")
-        models.storage.new(user)
-        models.storage.save()
-        user_id = user.id
-        wrong_id = '666'
-        self.assertTrue(models.storage.get(User, user_id) is user)
-        self.assertIsNone(models.storage.get(User, wrong_id))
-        models.storage.delete(user)
-        state = State(name='Heaven')
-        models.storage.new(state)
-        models.storage.save()
-        state_id = state.id
-        wrong_id = 'Toast'
-        self.assertTrue(models.storage.get(State, state_id) is state)
-        self.assertIsNone(models.storage.get(State, wrong_id))
+        """Test that get returns specific object, or none"""
+        new_state = State(name="New York")
+        new_state.save()
+        new_user = User(email="bob@foobar.com", password="password")
+        new_user.save()
+        self.assertIs(new_state, models.storage.get("State", new_state.id))
+        self.assertIs(None, models.storage.get("State", "blah"))
+        self.assertIs(None, models.storage.get("blah", "blah"))
+        self.assertIs(new_user, models.storage.get("User", new_user.id))
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_count(self):
+        """test that new adds an object to the database"""
+        initial_count = models.storage.count()
+        self.assertEqual(models.storage.count("Blah"), 0)
+        new_state = State(name="Florida")
+        new_state.save()
+        new_user = User(email="bob@foobar.com", password="password")
+        new_user.save()
+        self.assertEqual(models.storage.count("State"), initial_count + 1)
+        self.assertEqual(models.storage.count(), initial_count + 2)
