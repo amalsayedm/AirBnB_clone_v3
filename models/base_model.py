@@ -13,7 +13,7 @@ import uuid
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
-if models.storage_t == "db":
+if getenv('HBNB_TYPE_STORAGE') == "db":
     Base = declarative_base()
 else:
     Base = object
