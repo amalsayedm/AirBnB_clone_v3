@@ -19,30 +19,30 @@ from os import getenv
                  methods=['GET'], strict_slashes=False)
 def place(city_id):
     """Retrieves the list of all Place objects of a City"""
-    places = storage.get(City, city_id)
-    if not places:
+    obj_city = storage.get(City, city_id)
+    if not obj_city:
         abort(404)
 
-    return jsonify([obj.to_dict() for obj in places])
+    return jsonify([obj.to_dict() for obj in obj_city.places])
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def single_place(place_id):
     """Retrieves a Place object"""
-    one_place = storage.get(Place, place_id)
-    if not one_place:
+    obj = storage.get(Place, place_id)
+    if not obj:
         abort(404)
-    return jsonify(one_place.to_dict())
+    return jsonify(obj.to_dict())
 
 
 @app_views.route('/places/<place_id>',
                  methods=['DELETE'], strict_slashes=False)
 def del_place(place_id):
     """Returns an empty dictionary with the status code 200"""
-    place_deleted = storage.get(Place, place_id)
-    if not place_deleted:
+    obj = storage.get(Place, place_id)
+    if not obj:
         abort(404)
-    place_deleted.delete()
+    obj.delete()
     storage.save()
     return make_response(jsonify({}), 200)
 
