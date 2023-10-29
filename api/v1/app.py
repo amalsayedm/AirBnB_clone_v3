@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Flask web application
+"""
+Flask web application
 """
 
 from flask import Flask, jsonify
@@ -14,14 +15,16 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.teardown_appcontext
 def teardown(error):
-    """Clean-up method
+    """
+    Clean-up method
     """
     storage.close()
 
 
 @app.errorhandler(404)
 def not_found(error):
-    """Custom 404 error
+    """
+    Custom 404 error
     """
     return jsonify({'error': 'Not found'}), 404
 
