@@ -47,19 +47,19 @@ def push_review(place_id):
     if not obj_place:
         abort(404)
 
-    new_review = request.get_json()
-    if not new_review:
+    newreview = request.get_json()
+    if not newreview:
         abort(400, "Not a JSON")
-    if 'user_id' not in new_review:
+    if 'user_id' not in newreview:
         abort(400, "Missing user_id")
-    user_id = new_review['user_id']
+    user_id = newreview['user_id']
     obj_user = storage.get(User, user_id)
     if not obj_user:
         abort(404)
-    if 'text' not in new_review:
+    if 'text' not in newreview:
         abort(400, "Missing text")
 
-    obj = Review(**new_review)
+    obj = Review(**newreview)
     setattr(obj, 'place_id', place_id)
     storage.new(obj)
     storage.save()
