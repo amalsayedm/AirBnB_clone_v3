@@ -25,6 +25,7 @@ classes = {
     'User': User
 }
 
+
 class DBStorage:
     """interaacts with the MySQL database"""
     __engine = None
@@ -38,11 +39,11 @@ class DBStorage:
         HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
         self. __engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
-                                      format(HBNB_MYSQL_USER,
-                                             HBNB_MYSQL_PWD,
-                                             HBNB_MYSQL_HOST,
-                                             HBNB_MYSQL_DB))
-        if  getenv('HBNB_MYSQL_ENV', 'not') == 'test':
+                                       format(HBNB_MYSQL_USER,
+                                              HBNB_MYSQL_PWD,
+                                              HBNB_MYSQL_HOST,
+                                              HBNB_MYSQL_DB))
+        if getenv('HBNB_MYSQL_ENV', 'not') == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -71,7 +72,7 @@ class DBStorage:
         """if obj is not None:
             self.__session.delete(obj)"""
         if not self.__session:
-           self.reload()
+            self.reload()
         if obj:
             self.__session.delete(obj)
 
