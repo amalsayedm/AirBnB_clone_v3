@@ -18,7 +18,7 @@ def teardown(error):
     """
     Clean-up method
     """
-    storage.close()
+   storage.close()
 
 
 @app.errorhandler(404)
