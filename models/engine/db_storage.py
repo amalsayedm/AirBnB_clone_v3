@@ -37,7 +37,7 @@ class DBStorage:
                                               HBNB_MYSQL_PWD,
                                               HBNB_MYSQL_HOST,
                                               HBNB_MYSQL_DB))
-        if getenv('HBNB_MYSQL_ENV', 'not') == 'test':
+        if HBNB_ENV == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -82,12 +82,18 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """Retrieve object by its id """
-        if cls in classes.values():
-            return self.__session.query(cls).filter(cls.id == id).first()
-        else:
-            return None
+        """Retrieve an object"""
+       if not cls or not cls:
+           return None
+       return self.__session.query(cls).filter_by9id=id).first()
 
     def count(self, cls=None):
         """Count number of objects in database """
-        return len(self.all(cls))
+        total = 0
+        if type(cls) == str and cls in name2class:
+            cls = name2class[cls]
+            total = self.__session.query(cls).count()
+        elif cls is None:
+            for cls in name2class.values():
+                total += self.__session.query(cls).count()
+        return total
