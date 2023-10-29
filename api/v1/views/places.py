@@ -3,8 +3,7 @@
 from flask import abort, jsonify, make_response, request
 import requests
 from api.v1.views import app_views
-from api.v1.views.amenities import amenities
-from api.v1.views.places_amenities import place_amenities
+from api.v1.views.amenities import Amenity
 from models import storage
 from models.amenity import Amenity
 from models.city import City
@@ -18,7 +17,7 @@ from os import getenv
 @app_views.route('cities/<city_id>/places',
                  methods=['GET'], strict_slashes=False)
 def place(city_id):
-    """Retrieves the list of all Place objects of a City"""
+    """Retrieves all Place objects of aspecifiec City"""
     obj_city = storage.get(City, city_id)
     if not obj_city:
         abort(404)
@@ -55,19 +54,19 @@ def post_place(city_id):
     if not obj_city:
         abort(404)
 
-    new_place = request.get_json()
-    if not new_place:
+    newplace = request.get_json()
+    if not newplace:
         abort(400, 'Not a JSON')
-    if 'user_id' not in new_place:
+    if 'user_id' not in newplace:
         abort(400, "Missing user_id")
-    user_id = new_place['user_id']
+    user_id = newplace['user_id']
     obj_user = storage.get(User, user_id)
     if not obj_user:
         abort(404)
-    if 'name' not in new_place:
+    if 'name' not in newplace:
         abort(400, "Missing name")
 
-    obj = Place(**new_place)
+    obj = Place(**newplace)
     setattr(obj, 'city_id', city_id)
     storage.new(obj)
     storage.save()

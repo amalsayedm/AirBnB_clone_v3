@@ -71,24 +71,18 @@ class FileStorage:
 
     def get(self, cls, id):
         """retrieves an object of a class with id"""
-       if cls != None
-           && type(cls) == str
-           && id != None
-           && type(id) == str
-           && cls in classes:
-           cls = classes[cls]
-            result = self.__session.query(cls).filter(cls.id == id).first()
-            return result
-        else:
-            return None
+        if cls is not None:
+            res = list(
+                filter(
+                    lambda x: type(x) is cls and x.id == id,
+                    self.__objects.values()
+                )
+            )
+            if res:
+                return res[0]
+        return None
                    
     def count(self, cls=None):
         """retrieves the number of objects of a class or all (if cls==None)"""
-        total = 0
-        if type(cls) == str and cls in classes:
-            cls = classes[cls]
-            total = self.__session.query(cls).count()
-        elif cls is None:
-            for cls in classes.values():
-                total += self.__session.query(cls).count()
-        return total
+        """retrieves the number of objects of a class or all (if cls==None)"""
+        return len(self.all(cls))
