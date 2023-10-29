@@ -71,9 +71,12 @@ class FileStorage:
 
     def get(self, cls, id):
         """retrieves an object of a class with id"""
-       if cls != None && type(cls) == str && id != None &&
-           type(id) == str && cls in classes:
-            cls = classes[cls]
+       if cls != None
+           && type(cls) == str
+           && id != None
+           && type(id) == str
+           && cls in classes:
+           cls = classes[cls]
             result = self.__session.query(cls).filter(cls.id == id).first()
             return result
         else:
