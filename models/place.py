@@ -30,7 +30,7 @@ if models.storage_t == 'db':
 
 class Place(BaseModel, Base):
     """Representation of Place """
-    if models.storage_t == 'db':
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
         __tablename__ = 'places'
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -67,7 +67,7 @@ class Place(BaseModel, Base):
         """initializes Place"""
         super().__init__(*args, **kwargs)
 
-    if models.storage_t != 'db':
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def reviews(self):
             """getter attribute returns the list of Review instances"""
