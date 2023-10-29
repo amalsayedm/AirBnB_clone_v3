@@ -14,9 +14,8 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.teardown_appcontext
 def teardown(error):
-     """Clean-up method
-    """
-    storage.close()
+     """Clean-up method """
+     storage.close()
 
 
 @app.errorhandler(404)
