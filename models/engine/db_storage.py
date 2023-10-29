@@ -85,7 +85,7 @@ class DBStorage:
         """Retrieve an object"""
        if not cls or not cls:
            return None
-       return self.__session.query(cls).filter_by9id=id).first()
+       return self.__session.query(cls).filter_by(id=id).first()
 
     def count(self, cls=None):
         """Count number of objects in database """
