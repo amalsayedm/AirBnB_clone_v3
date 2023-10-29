@@ -84,8 +84,8 @@ class DBStorage:
     def get(self, cls, id):
         """retrieves an object of a class with id"""
         if cls is not None and type(cls) is str and id is not None and\
-           type(id) is str and cls in name2class:
-            cls = name2class[cls]
+           type(id) is str and cls in classes:
+            cls = classes[cls]
             result = self.__session.query(cls).filter(cls.id == id).first()
             return result
         else:
@@ -94,10 +94,10 @@ class DBStorage:
     def count(self, cls=None):
         """retrieves the number of objects of a class or all (if cls==None)"""
         total = 0
-        if type(cls) == str and cls in name2class:
-            cls = name2class[cls]
+        if type(cls) == str and cls in classes:
+            cls = classes[cls]
             total = self.__session.query(cls).count()
         elif cls is None:
-            for cls in name2class.values():
+            for cls in classes.values():
                 total += self.__session.query(cls).count()
         return total
