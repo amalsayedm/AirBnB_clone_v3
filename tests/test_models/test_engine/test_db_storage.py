@@ -20,7 +20,7 @@ import pep8
 import unittest
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
-           "Review": Review, "State": State, "User": User
+           "Review": Review, "State": State, "User": User}
 
 
 class TestDBStorageDocs(unittest.TestCase):
@@ -45,7 +45,7 @@ test_db_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
-     def test_db_storage_module_docstring(self):
+    def test_db_storage_module_docstring(self):
         """Test for the db_storage.py module docstring"""
         self.assertIsNot(db_storage.__doc__, None,
                          "db_storage.py needs a docstring")
