@@ -19,20 +19,22 @@ from os import getenv
                  methods=['GET'], strict_slashes=False)
 def place(city_id):
     """Retrieves all Place objects of aspecifiec City"""
-    obj_city = storage.get(City, city_id)
-    if not obj_city:
+     city = storage.get("City", city_id)
+    if city is None:
         abort(404)
-
-    return jsonify([obj.to_dict() for obj in obj_city.places])
+    places = []
+    for place in city.places:
+        places.append(place.to_dict())
+    return jsonify(places)
 
 
 @app_views.route('/places/<place_id>', methods=['GET'], strict_slashes=False)
 def single_place(place_id):
     """Retrieves a Place object"""
-    obj = storage.get(Place, place_id)
-    if not obj:
+    place = storage.get("Place", place_id)
+    if place is None:
         abort(404)
-    return jsonify(obj.to_dict())
+    return jsonify(place.to_dict())
 
 
 @app_views.route('/places/<place_id>',
